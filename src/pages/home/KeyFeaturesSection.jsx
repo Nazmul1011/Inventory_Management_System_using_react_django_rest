@@ -1,87 +1,55 @@
-import React from "react";
-import {
-  HiOutlineCube,
-  HiOutlineChartBar,
-  HiOutlineRefresh,
-} from "react-icons/hi";
+import { IoMdAnalytics } from "react-icons/io";
+import { MdEmergencyRecording } from "react-icons/md";
+import { RiTimeZoneFill } from "react-icons/ri";
+import SectionHeader from "./section_header.";
+
+const tools = [
+  {
+    icon: RiTimeZoneFill,
+    title: "Real-Time Collaboration",
+    description:
+      "Track stock levels in real time to maintain optimal inventory.",
+  },
+  {
+    icon: IoMdAnalytics,
+    title: "Sales Analytics",
+    description: "Analyze trends and top products to optimize inventory.",
+  },
+  {
+    icon: MdEmergencyRecording,
+    title: "Automated Reordering",
+    description:
+      "Set up automated reordering rules and  you will never run out of essential items. ",
+  },
+];
 
 export const KeyFeaturesSection = () => {
   return (
-    <div className="py-10 px-8 lg:px-10">
-      <h1 className="text-4xl font-bold">Key Features</h1>
-      <p className="text-gray-400 mt-4 max-w-2xl">
-        StockWise offers a comprehensive suite of tools to help you manage your
-        inventory effectively.
-      </p>
+    <div className="max-w-screen-2xl container mx-auto bg-gray-100 px-20 py-20 text-center">
+      <SectionHeader
+        header="The Tools You Need"
+        subheader="All-in-One Solution for Your Projects"
+      />
 
-      {/* Card container */}
-      <div className="mt-8 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 ">
-        {/* Card 1 */}
-        <div
-          className="card bg-base-100 shadow-md rounded-lg p-6 
-  group hover:bg-blue-400 transition-all duration-300 ease-in-out"
-        >
-          <div className="flex flex-col items-start gap-3">
-            {/* Icon */}
-            <HiOutlineCube className="text-4xl text-primary transition-colors duration-300 group-hover:text-white" />
-
-            {/* Heading */}
-            <h2 className="text-xl font-bold transition-colors duration-300 group-hover:text-white">
-              Real-time Tracking
-            </h2>
-
-            {/* Paragraph */}
-            <p className="text-gray-500 transition-colors duration-300 group-hover:text-white">
-              Monitor your stock levels in real-time, ensuring you always have
-              the right amount of product on hand.
-            </p>
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mt-10">
+        {tools.map((tool, index) => (
+          <div
+            key={index}
+            className="items-center shadow-lg rounded-lg text-center p-6 bg-white hover:shadow-xl transition"
+          >
+            <tool.icon className="text-5xl text-primary mx-auto mb-5" />
+            <h2 className="text-xl font-bold mb-2">{tool.title}</h2>
+            <p className="text-gray-500 text-sm">{tool.description}</p>
           </div>
-        </div>
+        ))}
+      </div>
 
-        {/* Card 2 */}
-        <div
-          className="card bg-base-100 shadow-md rounded-lg p-6 
-  group hover:bg-blue-400 transition-all duration-300 ease-in-out"
-        >
-          <div className="flex flex-col items-start gap-3">
-            {/* Icon */}
-            <HiOutlineChartBar className="text-4xl text-primary transition-colors duration-300 group-hover:text-white" />
-
-            {/* Heading */}
-            <h2 className="text-xl font-bold transition-colors duration-300 group-hover:text-white">
-              Sales Analytics
-            </h2>
-
-            {/* Paragraph */}
-            <p className="text-gray-500 transition-colors duration-300 group-hover:text-white">
-              Analyze sales trends and identify best-selling products to
-              optimize your inventory strategy.
-            </p>
-          </div>
-        </div>
-
-        {/* Card 3 */}
-        <div
-          className="card bg-base-100 shadow-md rounded-lg p-6 
-  group hover:bg-blue-400 transition-all duration-300 ease-in-out"
-        >
-          <div className="flex flex-col items-start gap-3">
-            {/* Icon */}
-            <HiOutlineRefresh className="text-4xl text-primary transition-colors duration-300 group-hover:text-white" />
-
-            {/* Heading */}
-            <h2 className="text-xl font-bold transition-colors duration-300 group-hover:text-white">
-              Automated Reordering
-            </h2>
-
-            {/* Paragraph */}
-            <p className="text-gray-500 transition-colors duration-300 group-hover:text-white">
-              Set up automated reordering rules to ensure you never run out of
-              essential items.
-            </p>
-          </div>
-        </div>
+      <div className="text-center mt-12">
+        <button className="bg-primary text-white px-6 py-3 rounded-lg shadow-md  transition">
+          Key Features
+        </button>
       </div>
     </div>
   );
 };
+export default KeyFeaturesSection;

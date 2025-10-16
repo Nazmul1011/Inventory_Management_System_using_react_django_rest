@@ -14,7 +14,7 @@ export default function AutoDropDown() {
       {/* Sign Up Button */}
       <Link
         to="/logRegister"
-        className="btn btn-outline btn-primary"
+        className="btn btn-outline btn-primary hover:text-white"
       >
         Sign Up
       </Link>

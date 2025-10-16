@@ -1,7 +1,5 @@
-import React from "react";
 import { HiArrowNarrowRight } from "react-icons/hi";
 import { Link } from "react-router-dom";
-import bannerImage from "../../assets/inventory.png";
 
 export const HeroSection = () => {
   return (
@@ -29,13 +27,15 @@ export const HeroSection = () => {
           </div>
 
           {/* Buttons */}
-          <div className="flex flex-col sm:flex-row gap-4 py-6">
-            <button className="btn bg-primary text-white hover:bg-blue-700 flex items-center gap-2">
-              <span><Link to ='/logRegister'>Get Started</Link></span>
+          <div className="flex flex-col sm:flex-row gap-4 py-6  ">
+            <button className="btn bg-primary text-white hover:bg-blue-700 flex items-center gap-2 p-2">
+              <span>
+                <Link to="/logRegister">Get Started</Link>
+              </span>
               <HiArrowNarrowRight />
             </button>
 
-            <button className="btn btn-outline btn-primary text-white border-white hover:bg-white hover:text-black">
+            <button className="btn btn-outline btn-primary text-white border-white hover:bg-white hover:text-black p-4">
               Contact Us
             </button>
           </div>
