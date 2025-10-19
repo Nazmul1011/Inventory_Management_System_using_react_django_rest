@@ -1,19 +1,18 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-// TODO: when backend is ready
-// import { addCustomer } from "../../services/customer";
+import { FiUser, FiPhone, FiMail, FiCreditCard } from "react-icons/fi";
 
 export default function CustomerAdd() {
   const navigate = useNavigate();
 
   const [form, setForm] = useState({
-    id: "",                // Customer ID
+    id: "",
     name: "",
     mobile: "",
     email: "",
     due: "0",
-    paymentStatus: "Paid", // Paid | Unpaid
-    active: true,          // Active toggle
+    paymentStatus: "Paid",
+    active: true,
   });
 
   const [loading, setLoading] = useState(false);
@@ -34,159 +33,179 @@ export default function CustomerAdd() {
 
     const payload = {
       ...form,
-      id: String(form.id).trim(),
       due: Number(form.due || 0),
-      paymentStatus: form.paymentStatus, // "Paid" | "Unpaid"
+      paymentStatus: form.paymentStatus,
       active: Boolean(form.active),
     };
 
     try {
-      // ------------------------------------------------------------
-      // TODO: call backend API to create customer
-      // await addCustomer(payload);
-      // ------------------------------------------------------------
       console.log("Customer added:", payload);
-
-      // Redirect to the customer list page (adjust path if yours is different)
-      navigate("/dashboard/customers");
+      navigate("/dashboard/customerlist");
     } catch (error) {
       console.error(error);
-      setErr(error?.response?.data?.message || "Failed to add customer");
+      setErr("Failed to add customer");
     } finally {
       setLoading(false);
     }
   };
 
   return (
-    <div className="rounded-lg bg-white p-6 shadow">
-      <h2 className="text-xl font-semibold text-gray-900">Add New Customer</h2>
+    <div className="bg-white rounded-2xl shadow-md p-8 transition-all duration-300 hover:shadow-lg">
+      {/* Header */}
+      <div className="flex items-center gap-3 mb-8">
+        <div className="p-3 rounded-xl bg-indigo-100 text-indigo-600">
+          <FiUser size={22} />
+        </div>
+        <h2 className="text-2xl font-semibold text-gray-800">
+          Add New Customer
+        </h2>
+      </div>
 
-      {/* two-column on large screens; single column on mobile */}
-      <form onSubmit={onSubmit} className="mt-6 grid grid-cols-1 gap-4 lg:grid-cols-2">
-        {/* ID */}
-        <div>
-          <label className="mb-1 block text-sm font-medium text-gray-700">
-            Customer ID
-          </label>
-          <input
+      {/* Form */}
+      <form onSubmit={onSubmit} className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+        <div className="grid gap-5">
+          <InputField
+            label="Customer ID"
             name="id"
             value={form.id}
             onChange={onChange}
-            required
             placeholder="e.g. 2005"
-            className="w-full rounded border border-gray-300 px-3 py-2 text-sm focus:border-blue-500 focus:ring-2 focus:ring-blue-100"
+            required
           />
-        </div>
 
-        {/* Name */}
-        <div>
-          <label className="mb-1 block text-sm font-medium text-gray-700">
-            Name
-          </label>
-          <input
+          <InputField
+            label="Full Name"
             name="name"
             value={form.name}
             onChange={onChange}
+            placeholder="John Doe"
+            icon={<FiUser size={16} />}
             required
-            placeholder="Full name"
-            className="w-full rounded border border-gray-300 px-3 py-2 text-sm focus:border-blue-500 focus:ring-2 focus:ring-blue-100"
           />
-        </div>
 
-        {/* Mobile */}
-        <div>
-          <label className="mb-1 block text-sm font-medium text-gray-700">
-            Mobile
-          </label>
-          <input
+          <InputField
+            label="Mobile"
             name="mobile"
             value={form.mobile}
             onChange={onChange}
-            required
             placeholder="e.g. 555-0123"
-            className="w-full rounded border border-gray-300 px-3 py-2 text-sm focus:border-blue-500 focus:ring-2 focus:ring-blue-100"
+            icon={<FiPhone size={16} />}
+            required
           />
-        </div>
 
-        {/* Email */}
-        <div>
-          <label className="mb-1 block text-sm font-medium text-gray-700">
-            Email
-          </label>
-          <input
+          <InputField
             type="email"
+            label="Email"
             name="email"
             value={form.email}
             onChange={onChange}
             placeholder="name@example.com"
-            className="w-full rounded border border-gray-300 px-3 py-2 text-sm focus:border-blue-500 focus:ring-2 focus:ring-blue-100"
+            icon={<FiMail size={16} />}
           />
-        </div>
 
-        {/* Due */}
-        <div>
-          <label className="mb-1 block text-sm font-medium text-gray-700">
-            Due Amount ($)
-          </label>
-          <input
+          <InputField
             type="number"
             step="0.01"
+            label="Due Amount ($)"
             name="due"
             value={form.due}
             onChange={onChange}
+            icon={<FiCreditCard size={16} />}
             required
-            className="w-full rounded border border-gray-300 px-3 py-2 text-sm focus:border-blue-500 focus:ring-2 focus:ring-blue-100"
           />
-        </div>
 
-        {/* Payment Status */}
-        <div>
-          <label className="mb-1 block text-sm font-medium text-gray-700">
-            Payment Status
-          </label>
-          <select
+          <SelectField
+            label="Payment Status"
             name="paymentStatus"
             value={form.paymentStatus}
             onChange={onChange}
-            className="w-full rounded border border-gray-300 bg-gray-50 px-3 py-2 text-sm focus:border-blue-500 focus:bg-white focus:ring-2 focus:ring-blue-100"
-          >
-            <option>Paid</option>
-            <option>Unpaid</option>
-          </select>
-        </div>
-
-        {/* Active toggle */}
-        <div className="flex items-center gap-3">
-          <input
-            id="active"
-            type="checkbox"
-            name="active"
-            checked={form.active}
-            onChange={onChange}
-            className="h-4 w-4 rounded border-gray-300 text-blue-600 focus:ring-blue-500"
+            options={["Paid", "Unpaid"]}
           />
-          <label htmlFor="active" className="text-sm font-medium text-gray-700">
-            Active
-          </label>
-        </div>
 
-        {/* Submit (full width) */}
-        <div className="lg:col-span-2">
+          {/* Active toggle */}
+          <div className="flex items-center gap-3 mt-2">
+            <input
+              id="active"
+              type="checkbox"
+              name="active"
+              checked={form.active}
+              onChange={onChange}
+              className="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500"
+            />
+            <label htmlFor="active" className="text-sm font-medium text-gray-700">
+              Active Customer
+            </label>
+          </div>
+
+          {/* Submit */}
           <button
             type="submit"
             disabled={loading}
-            className="w-full rounded bg-blue-600 px-4 py-2 text-sm font-medium text-white hover:bg-blue-700 disabled:opacity-60"
+            className="mt-6 w-full rounded-lg bg-indigo-600 text-white text-sm font-medium py-2.5 hover:bg-indigo-700 transition disabled:opacity-60"
           >
             {loading ? "Adding…" : "Add Customer"}
           </button>
+
+          {err && (
+            <div className="mt-2 rounded bg-red-50 px-3 py-2 text-sm text-red-600">
+              {err}
+            </div>
+          )}
+        </div>
+
+        {/* Right: Info Box */}
+        <div className="hidden lg:flex flex-col items-center justify-center border-l pl-8 text-gray-600">
+          <FiUser size={30} className="text-indigo-400 mb-3" />
+          <h3 className="font-semibold text-lg mb-2">Customer Guidelines</h3>
+          <ul className="text-sm list-disc list-inside space-y-1 text-gray-500">
+            <li>Customer ID must be unique</li>
+            <li>Enter valid phone or email</li>
+            <li>Set payment status correctly</li>
+            <li>Toggle “Active” if currently valid</li>
+          </ul>
         </div>
       </form>
+    </div>
+  );
+}
 
-      {err && (
-        <div className="mt-4 rounded bg-rose-50 px-3 py-2 text-sm text-rose-700">
-          {err}
-        </div>
-      )}
+/* ---------- Reusable Fields ---------- */
+
+function InputField({ label, icon, ...props }) {
+  return (
+    <div>
+      <label className="text-sm font-medium text-gray-700 mb-1 block">
+        {label}
+      </label>
+      <div className="relative">
+        {icon && <span className="absolute left-3 top-2.5 text-gray-400">{icon}</span>}
+        <input
+          {...props}
+          className={`w-full rounded-lg border border-gray-300 px-3 py-2 text-sm 
+            ${icon ? "pl-9" : ""}
+            focus:ring-2 focus:ring-indigo-400 outline-none transition`}
+        />
+      </div>
+    </div>
+  );
+}
+
+function SelectField({ label, name, value, onChange, options }) {
+  return (
+    <div>
+      <label className="text-sm font-medium text-gray-700 mb-1 block">{label}</label>
+      <select
+        name={name}
+        value={value}
+        onChange={onChange}
+        className="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm focus:ring-2 focus:ring-indigo-400 outline-none transition"
+      >
+        {options.map((o) => (
+          <option key={o} value={o}>
+            {o}
+          </option>
+        ))}
+      </select>
     </div>
   );
 }

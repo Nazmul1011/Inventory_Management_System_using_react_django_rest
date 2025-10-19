@@ -90,6 +90,8 @@ export default function App() {
           <Route path="/dashboard/supplier" element={<AddSupplier/>} />
           <Route path="/dashboard/supplierlist" element={<SupplierList/>} />
           <Route path="/dashboard/usermanagement" element={<UserManagement/>} />
+          <Route path="/dashboard/usermanagement" element={<InvoicePage/>} />
+          
           
           
         </Route>
