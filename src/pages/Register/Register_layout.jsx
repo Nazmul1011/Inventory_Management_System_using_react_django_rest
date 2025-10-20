@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-// import client from "../../services/client"; // axios instance
+import { FiMail, FiLock, FiUser } from "react-icons/fi";
+import { RiShieldUserLine } from "react-icons/ri";
 
 export default function Register() {
   const [form, setForm] = useState({
@@ -8,22 +9,17 @@ export default function Register() {
     email: "",
     password: "",
     confirmPassword: "",
-    role: "", // new field
+    role: "",
   });
-  const [roles, setRoles] = useState(["Admin", "Staff", "Manager"]); // static for now
+  const [roles, setRoles] = useState(["Admin", "Staff", "Manager"]);
   const [loading, setLoading] = useState(false);
   const [err, setErr] = useState(null);
   const [msg, setMsg] = useState(null);
 
-  // later you’ll fetch roles from backend
   useEffect(() => {
     const loadRoles = async () => {
       try {
-        // ------------------------------------------------------------
-        // TODO: when backend is ready
-        // const { data } = await client.get("/roles");
-        // setRoles(data.roles);
-        // ------------------------------------------------------------
+        // future API call
       } catch (error) {
         console.error("Failed to fetch roles", error);
       }
@@ -31,9 +27,7 @@ export default function Register() {
     loadRoles();
   }, []);
 
-  const onChange = (e) => {
-    setForm((f) => ({ ...f, [e.target.name]: e.target.value }));
-  };
+  const onChange = (e) => setForm({ ...form, [e.target.name]: e.target.value });
 
   const onSubmit = async (e) => {
     e.preventDefault();
@@ -47,77 +41,76 @@ export default function Register() {
 
     setLoading(true);
     try {
-      // ------------------------------------------------------------
-      // TODO: replace endpoint/fields to match your backend
-      // const { data } = await client.post("/auth/register", form);
-      // setMsg(data?.message || "Registration successful.");
-      // ------------------------------------------------------------
+      // Simulate registration
+      await new Promise((r) => setTimeout(r, 800));
+      setMsg("Registration successful ✅");
     } catch (error) {
-      console.error(error);
-      const apiMsg = error?.response?.data?.message || "Registration failed.";
-      setErr(apiMsg);
+      setErr("Registration failed (demo).");
     } finally {
       setLoading(false);
     }
   };
 
   return (
-    <div className="min-h-screen bg-gray-50">
-      <div className="mx-auto w-full max-w-xl px-4 py-12 sm:px-6">
-        <h1 className="text-center text-2xl font-semibold text-gray-900">
-          Register
-        </h1>
+    <div className="min-h-screen grid md:grid-cols-2">
+      {/* ====== Left: Registration Form ====== */}
+      <div className="flex flex-col justify-center px-8 md:px-20 bg-white">
+        {/* Logo */}
+        <div className="mb-10 flex items-center gap-2">
+          <img src="/logo.png" alt="IMS Logo" className="h-8" />
+          <h1 className="text-xl font-bold text-gray-800">InventoryMS</h1>
+        </div>
 
-        <form
-          onSubmit={onSubmit}
-          className="mx-auto mt-8 w-full max-w-md space-y-4"
-        >
-          {/* Admin Name */}
-          <div>
-            <label className="mb-1 block text-sm font-medium text-gray-800">
-              Admin Name
-            </label>
+        {/* Header */}
+        <h2 className="text-3xl font-bold text-gray-900 mb-2">
+          Create an Account
+        </h2>
+        <p className="text-gray-500 mb-8">
+          Join us to manage your inventory smarter, faster, and efficiently.
+        </p>
+
+        {/* Form */}
+        <form onSubmit={onSubmit} className="space-y-5 w-full max-w-md">
+          {/* Name */}
+          <div className="relative">
+            <FiUser className="absolute left-3 top-3 text-gray-400 text-lg" />
             <input
               type="text"
               name="name"
               value={form.name}
               onChange={onChange}
-              placeholder="Enter your name"
+              placeholder="Full Name"
               required
-              className="w-full rounded-md border border-gray-200 bg-gray-100 px-3 py-2 text-sm text-gray-900 outline-none focus:border-blue-500 focus:bg-white focus:ring-2 focus:ring-blue-100"
+              className="w-full pl-10 pr-4 py-3 border border-gray-200 rounded-xl text-sm bg-gray-50 focus:bg-white focus:ring-2 focus:ring-indigo-500 focus:outline-none"
             />
           </div>
 
           {/* Email */}
-          <div>
-            <label className="mb-1 block text-sm font-medium text-gray-800">
-              Email
-            </label>
+          <div className="relative">
+            <FiMail className="absolute left-3 top-3 text-gray-400 text-lg" />
             <input
               type="email"
               name="email"
               value={form.email}
               onChange={onChange}
-              placeholder="Enter your email"
+              placeholder="Email Address"
               required
-              className="w-full rounded-md border border-gray-200 bg-gray-100 px-3 py-2 text-sm text-gray-900 outline-none focus:border-blue-500 focus:bg-white focus:ring-2 focus:ring-blue-100"
+              className="w-full pl-10 pr-4 py-3 border border-gray-200 rounded-xl text-sm bg-gray-50 focus:bg-white focus:ring-2 focus:ring-indigo-500 focus:outline-none"
             />
           </div>
 
-          {/* Role Dropdown */}
-          <div>
-            <label className="mb-1 block text-sm font-medium text-gray-800">
-              Role
-            </label>
+          {/* Role */}
+          <div className="relative">
+            <RiShieldUserLine className="absolute left-3 top-3 text-gray-400 text-lg" />
             <select
               name="role"
               value={form.role}
               onChange={onChange}
               required
-              className="w-full rounded-md border border-gray-200 bg-gray-100 px-3 py-2 text-sm text-gray-900 outline-none focus:border-blue-500 focus:bg-white focus:ring-2 focus:ring-blue-100"
+              className="w-full pl-10 pr-4 py-3 border border-gray-200 rounded-xl text-sm bg-gray-50 focus:bg-white focus:ring-2 focus:ring-indigo-500 focus:outline-none appearance-none"
             >
               <option value="" disabled>
-                Select role
+                Select Role
               </option>
               {roles.map((r, i) => (
                 <option key={i} value={r}>
@@ -128,34 +121,30 @@ export default function Register() {
           </div>
 
           {/* Password */}
-          <div>
-            <label className="mb-1 block text-sm font-medium text-gray-800">
-              Password
-            </label>
+          <div className="relative">
+            <FiLock className="absolute left-3 top-3 text-gray-400 text-lg" />
             <input
               type="password"
               name="password"
               value={form.password}
               onChange={onChange}
-              placeholder="Enter your password"
+              placeholder="Password"
               required
-              className="w-full rounded-md border border-gray-200 bg-gray-100 px-3 py-2 text-sm text-gray-900 outline-none focus:border-blue-500 focus:bg-white focus:ring-2 focus:ring-blue-100"
+              className="w-full pl-10 pr-4 py-3 border border-gray-200 rounded-xl text-sm bg-gray-50 focus:bg-white focus:ring-2 focus:ring-indigo-500 focus:outline-none"
             />
           </div>
 
           {/* Confirm Password */}
-          <div>
-            <label className="mb-1 block text-sm font-medium text-gray-800">
-              Confirm Password
-            </label>
+          <div className="relative">
+            <FiLock className="absolute left-3 top-3 text-gray-400 text-lg" />
             <input
               type="password"
               name="confirmPassword"
               value={form.confirmPassword}
               onChange={onChange}
-              placeholder="Confirm your password"
+              placeholder="Confirm Password"
               required
-              className="w-full rounded-md border border-gray-200 bg-gray-100 px-3 py-2 text-sm text-gray-900 outline-none focus:border-blue-500 focus:bg-white focus:ring-2 focus:ring-blue-100"
+              className="w-full pl-10 pr-4 py-3 border border-gray-200 rounded-xl text-sm bg-gray-50 focus:bg-white focus:ring-2 focus:ring-indigo-500 focus:outline-none"
             />
           </div>
 
@@ -163,9 +152,9 @@ export default function Register() {
           <button
             type="submit"
             disabled={loading}
-            className="w-full rounded-md bg-blue-600 px-4 py-2 text-sm font-medium text-white hover:bg-blue-700 disabled:opacity-60"
+            className="w-full bg-indigo-600 hover:bg-indigo-700 text-white py-3 rounded-xl font-medium transition"
           >
-            {loading ? "Registering..." : "Register"}
+            {loading ? "Registering..." : "Create Account"}
           </button>
 
           {/* Feedback */}
@@ -180,17 +169,26 @@ export default function Register() {
             </div>
           )}
 
-          {/* Bottom link */}
-          <div className="text-center text-xs text-gray-600">
+          {/* Link */}
+          <p className="text-center text-xs text-gray-600 mt-2">
             Already have an account?{" "}
             <Link
-              to="/loguser" // keeping your route name
-              className="font-medium text-blue-600 hover:underline"
+              to="/loguser"
+              className="font-medium text-indigo-600 hover:underline"
             >
-              Sign in
+              Sign In
             </Link>
-          </div>
+          </p>
         </form>
+      </div>
+
+      {/* ====== Right: Illustration ====== */}
+      <div className="hidden md:flex items-center justify-center bg-gradient-to-br from-indigo-50 to-indigo-100">
+        <img
+          src="https://cdn3d.iconscout.com/3d/premium/thumb/sign-up-3d-illustration-download-in-png-blend-fbx-gltf-file-formats--register-form-personal-information-pack-illustrations-6439835.png"
+          alt="Register Illustration"
+          className="w-[70%] drop-shadow-lg"
+        />
       </div>
     </div>
   );
